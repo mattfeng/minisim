@@ -1,0 +1,7 @@
+lib/boost
+geometry
+
+*.DS_Store
+__MACOSX
+
+.ipynb_checkpoints
