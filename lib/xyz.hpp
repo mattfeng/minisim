@@ -12,44 +12,57 @@
  */
 class Atom {
 protected:
-    static int nextId;
-    static std::map<int, Atom*> atom_list;
+  static int nextId;
+  static std::map<int, Atom *> atom_list;
+  // capture unique count for each element, e.g. H1, H2, C1, C2...
+  static std::map<std::string, int> nextElementId;
+
 private:
-    const int id;
-    const std::string elt;
-    double x;
-    double y;
-    double z;
+  const int id;
+  const int elementId;
+  const std::string elt;
+  double x;
+  double y;
+  double z;
+
 public:
-    static const std::map<std::string, double> covalent_radius;
-    static bool within_bonding_distance(const Atom &a, const Atom &b);
-    static double distance_between(const Atom &a, const Atom &b);
+  static const std::map<std::string, double> covalent_radius;
+  static bool within_bonding_distance(const Atom &a, const Atom &b);
+  static double distance_between(const Atom &a, const Atom &b);
 
-    Atom(std::string elt, double x, double y, double z): id(nextId++), elt(elt), x(x), y(y), z(z) {
-        atom_list[id] = this;
-    }
+  Atom(std::string elt, double x, double y, double z)
+      : id(nextId++),
+        elementId(nextElementId[elt]++),
+        elt(elt),
+        x(x),
+        y(y),
+        z(z) {
+    atom_list[id] = this;
+  }
 
-    bool operator==(const Atom &b) const {
-        return id == b.id;
-    }
+  bool operator==(const Atom &b) const {
+    return id == b.id;
+  }
 
-    bool operator!=(const Atom &b) const {
-        return id != b.id;
-    }
+  bool operator!=(const Atom &b) const {
+    return id != b.id;
+  }
 
-    bool operator<(const Atom &b) const {
-        return id < b.id;
-    }
+  bool operator<(const Atom &b) const {
+    return id < b.id;
+  }
 
-    std::tuple<double, double, double> position() const {
-        return std::tuple<double, double, double>(x, y, z);
-    }
+  std::tuple<double, double, double> position() const {
+    return std::tuple<double, double, double>(x, y, z);
+  }
 
-    std::string to_str() const;
+  std::string to_str() const;
 
-    std::string element() const {
-        return elt;
-    }
+  std::string element() const { return elt; }
+
+  int getId() const { return id; }
+
+  int getElementId() const { return elementId; }
 };
 
 /**
@@ -57,20 +70,20 @@ public:
  */
 class Molecule {
 private:
-    std::string comment;
-    int atom_count;
-    std::vector<Atom> atoms;
+  std::string comment;
+  int atom_count;
+  std::vector<Atom> atoms;
+
 public:
-    void add_atom(Atom);
-    void set_atom_count(int);
-    void set_comment(std::string);
-    std::string to_str() const;
-    const std::vector<Atom>& get_atoms() {
-        return atoms;
-    }
+  void add_atom(Atom);
+  void set_atom_count(int);
+  void set_comment(std::string);
+  std::string to_str() const;
+
+  const std::vector<Atom> &get_atoms() { return atoms; }
 };
 
-int read_xyz_file(Molecule&, std::string);
-std::map<Atom, std::vector<Atom> > build_bond_graph(Molecule&);
+int read_xyz_file(Molecule &, std::string);
+std::map<Atom, std::vector<Atom>> build_bond_graph(Molecule &);
 
 #endif
