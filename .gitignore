@@ -5,3 +5,6 @@ geometry
 __MACOSX
 
 .ipynb_checkpoints
+
+*.o
+main

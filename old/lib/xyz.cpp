@@ -79,6 +79,10 @@ double Atom::distance_between(const Atom &a, const Atom &b) {
   return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
+/*! \brief Determine whether or not two atoms are within bonding distance.
+ * 
+ *
+ */
 bool Atom::within_bonding_distance(const Atom &a, const Atom &b) {
   const double TOLERANCE = 1.2;
 
