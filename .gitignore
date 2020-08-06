@@ -7,4 +7,5 @@ __MACOSX
 .ipynb_checkpoints
 
 *.o
+*.s
 main
