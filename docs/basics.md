@@ -1,10 +1,13 @@
 ---
 layout: page
-title: The basic algorithm
+title: Basics
 permalink: /basics
+nav_order: 2
 ---
 
-# The basic algorithm
+# Basics
+
+## The core algorithm
 
 1. Compute energy.
 2. Compute partial derivatives to get forces.
